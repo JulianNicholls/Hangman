@@ -9,7 +9,7 @@ while again
   yesno = 'q'
   
   while !('YN'.include? yesno)
-    print "\nAgain? "
+    print "\nPlay Again? "
     yesno = gets[0].upcase
   end
   
