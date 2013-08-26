@@ -1,0 +1,36 @@
+$dkblue: #1814FF;
+
+body, div, img
+{
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+body {
+    font: 16px helvetica, arial, sans-serif;
+    background: white;
+}
+
+div.container { width: 960px; margin: 10px auto; }
+
+h1 { 
+    font-size: 200%; 
+    text-align: center; 
+    color: $dkblue;
+}
+
+div#g-holder { background: white url( '/gal-BG.png' ) no-repeat; }
+
+a.button {
+    display: inline-block;
+    line-height: 40px;
+    height: 40px;
+    margin: 10px;
+    padding: 0 10px;
+    font-size: 18px;
+    text-decoration: none;
+    border-radius: 20px;
+    background: $dkblue;
+    color: white;
+}
