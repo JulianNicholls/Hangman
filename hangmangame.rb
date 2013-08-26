@@ -4,120 +4,56 @@ class HangmanGame
 
   include HangmanData
   
-  
-  @@show_title = true
-  
 # Initialise, either with a word or a selection from the word list
 
-  def initialize( word = nil )
+  def new_game( word = nil )
     @word = (word || random_word).upcase
     @done = false
     @bad  = []
     @good = []
   end
-
   
-# Play one game
   
-  def play
-    show_title if @@show_title
-    
-    complete = false
+# Return the word with dashes for unguessed letters
 
-    while !complete
-      show_gallows
-      complete = show_word || hung?
-      if( !complete )
-        show_bad
-        get_letter
-      end
-    end
-    
-    finished
-  end
-
-  
-# Show the gallows for the current number of used letters
-  
-  def show_gallows
-    if bad_count > 0
-      puts "\n\n" + GALLOWS[bad_count-1]
-    end
-  end
-
-
-# Show the word, and return whether it's solved
-  
-  def show_word
-    solved = true
-    
-    print "\nWord: "
+  def word_as_dashes
+    word = ''
     
     @word.split( // ).each do |c|
       if is_good? c
-        print "#{c} "
+        word << "#{c} "
       else
-        print "_ "
+        word << "_ "
         solved = false
       end
     end
-    
-    puts "\n\n"
-    
-    solved
+
+    word
   end
 
-  
-# Show the used letters
 
-  def show_bad
-    if bad_count != 0
-      print "Used: "
-      @bad.each { |c| print "#{c} " }
-      puts "\n\n"
+# Return whether the word has been completely solved
+
+  def solved?
+    @word.split( // ).each do |c|
+      return false unless is_good? c
     end
+    
+    true
   end
-
-
-# Get a letter from the player
   
-  def get_letter
-    print "Letter? "
-    cur = gets[0].upcase
 
+# Process the passed letter and add it to either 
+# good or bad  
+
+  def process_letter cur
     if( in_word? cur )
       @good << cur unless is_good? cur  # Don't duplicate
     else
       @bad << cur unless is_bad? cur  
     end
   end
-
   
-# Tell the user well done, or...
-
-  def finished
-    if hung?
-      puts "Aaargh! Fred was hanged.\nThe word was #@word.\n\n"
-    else
-      puts "Well done.\n\n"
-    end
-    
-    !hung?
-  end
-
-
-# Show the title screen, and suppress it for following runs
-
-  def show_title
-    puts "-----------------------------------------"
-    puts "HANGMAN by Julian Nicholls, August 2013"
-    puts "      -----------------------"
-    puts "Selecting from #{WORDS.length} words."
-    puts "-----------------------------------------\n\n"
-    
-    @@show_title = false
-  end
-
 
 # Return whether it's all over
   
@@ -145,6 +81,12 @@ class HangmanGame
   def in_word? letter
     @word.include? letter
   end
+
+# Return the used letters
+
+  def used
+    @good + @bad
+  end
   
   
 # Return whether the letter is in the word and has been entered by the player
@@ -162,12 +104,6 @@ class HangmanGame
 
   
 # Debug display of state
-
-  def debug
-    puts "Word: #@word"
-    puts "Good: #@good"
-    puts "Bad:  #@bad"
-  end
 
 end
 
