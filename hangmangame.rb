@@ -2,6 +2,8 @@ require './hangmandata'
 
 class HangmanGame
 
+  attr_reader :bad  # This is the only thing to leak
+  
   include HangmanData
   
 # Initialise, either with a word or a selection from the word list

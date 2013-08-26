@@ -69,8 +69,6 @@ class TextGame < HangmanGame
       print "Used: "
       @bad.each { |c| print "#{c} " }
       puts "\n\n"
-      
-      puts (Array( 'A'..'Z' ) - used)
     end
   end
 
