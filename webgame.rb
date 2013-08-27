@@ -21,6 +21,17 @@ get '/' do
   if @phase.nil?
     @phase = -1
     session[:phase] = -1
+    session[:game]  = HangmanGame.new
+  end
+  
+  if @phase > -1
+    game = session[:game]
+    @word     = game.word_as_dashes
+    @bad      = game.bad
+    @phase    = game.bad_count
+    @letters  = Array('A'..'Z') - game.used
+    @solved   = game.solved?
+    @hung     = game.hung?
   end
   
   slim :index
@@ -29,17 +40,20 @@ end
 
 get '/start' do
   session[:phase] = 0
-  session[:game] = HangmanGame.new
+  session[:game].new_game
   redirect to( '/' )
 end
   
 
-post '/reset' do
+get '/reset' do
   session[:phase] = -1
+  session[:game]  = HangmanGame.new
   redirect to( '/' )
 end
 
-post '/test' do
-  session[:phase] += 1
+
+get '/letter/:let' do
+  session[:game].process_letter params[:let]
   redirect to( '/' )
 end
+  
