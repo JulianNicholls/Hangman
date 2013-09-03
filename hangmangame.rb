@@ -2,7 +2,7 @@ require './hangmandata'
 
 class HangmanGame
 
-  attr_reader :bad  # This is the only thing to leak
+  attr_reader :word, :bad
   
   include HangmanData
   
@@ -22,14 +22,9 @@ class HangmanGame
     word = ''
     
     @word.split( // ).each do |c|
-      if is_good? c
-        word << "#{c} "
-      else
-        word << "_ "
-        solved = false
-      end
+      word << ((is_good? c) ? "#{c} " : "_ ")
     end
-
+    
     word
   end
 

@@ -21,14 +21,17 @@ h1 {
     color: $dkblue;
 }
 
-div#g-holder { background: white url('/gal-BG.png') no-repeat; }
+div#g-holder { 
+    height: 300px; 
+    overlow: hidden; 
+    background: white url('/gal-BG.png') no-repeat; }
 
 a.button {
     display: inline-block;
     line-height: 40px;
     height: 40px;
-    margin: 10px;
-    padding: 0 10px;
+    margin: 10px 10px 10px 0;
+    padding: 0 15px;
     font-size: 18px;
     text-decoration: none;
     border-radius: 20px;
@@ -91,3 +94,15 @@ div.tile {
     color: black;
     box-shadow: 1px 1px #555;
 }
+
+p.bottom {
+    margin-top: -68px;
+    margin-left: 190px;
+    font-size: 32px;
+    color: white;
+}
+
+
+/*** DEBUG ONLY ***/
+
+.debug { margin-top: 50px; }

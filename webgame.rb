@@ -1,14 +1,17 @@
 require 'sinatra'
 require 'sinatra/reloader' if development?
-require 'mongoid'
-require 'sass'        # Suggested as a security improvement
+require 'sass'
 require 'slim'
 
 require './hangmangame'
 
 configure do
 
-    enable :sessions
+#  enable :sessions   
+
+  use Rack::Session::Cookie, 
+    :expire_after => 300,       # Five minute game should cover it.
+    :secret => 'JGNHangman'     # Finally, an actual secret
     
 end
 
@@ -16,22 +19,20 @@ end
 get( '/styles/webgame.css' ) { scss :styles }
 
 get '/' do
-  @phase = session[:phase]
-
-  if @phase.nil?
-    @phase = -1
-    session[:phase] = -1
-    session[:game]  = HangmanGame.new
-  end
+  @phase = -1
   
-  if @phase > -1
-    game = session[:game]
-    @word     = game.word_as_dashes
-    @bad      = game.bad
-    @phase    = game.bad_count
-    @letters  = Array('A'..'Z') - game.used
-    @solved   = game.solved?
-    @hung     = game.hung?
+  if session[:playing].nil?
+    session[:playing] = false
+    session[:game]    = HangmanGame.new
+  end
+
+  if session[:playing]
+    @game     = session[:game]
+    @word     = @game.word_as_dashes
+    @phase    = @game.bad_count
+    @letters  = Array('A'..'Z') - @game.used
+    @solved   = @game.solved?
+    @hung     = @game.hung?
   end
   
   slim :index
@@ -39,21 +40,26 @@ end
 
 
 get '/start' do
-  session[:phase] = 0
+  session[:playing] = true
+
+  session[:game] = HangmanGame.new if session[:game].nil?
+
   session[:game].new_game
   redirect to( '/' )
 end
   
 
+get '/letter/:let' do
+  session[:game].process_letter params[:let]
+  redirect to( '/' )
+end
+
+# Shouldn't be necessary any more...
+
 get '/reset' do
-  session[:phase] = -1
+  session[:playing] = false
   session[:game]  = HangmanGame.new
   redirect to( '/' )
 end
 
 
-get '/letter/:let' do
-  session[:game].process_letter params[:let]
-  redirect to( '/' )
-end
-  

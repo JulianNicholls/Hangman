@@ -1,30 +1,35 @@
 div#g-holder
-  img#gallows src="/gal#{@phase}.png"
-
-- if @solved
-  p
-    |Well Done, the word was
-    =<@word
-- elsif @hung
-  p
-    |Ooops! The word was
-    =<@word
+  - if @solved
+    img src="/success.png" alt="Success"
+    p.bottom
+      |The word was
+      =<@game.word
+  - elsif @hung
+    img src="/failure.png" alt="Failure"
+    p.bottom
+      |The word was
+      =<@game.word
+  - else
+    img src="/gal#{@phase}.png" alt="Phase #{@phase}"
     
 - if @phase < 0 || @solved || @hung
   a.button href='/start' New Game
 - else
   div.word-holder
     =@word
+    
   div.bad-holder
-    - @bad.each do |c|
+    - @game.bad.each do |c|
       div.tile
           =c
+          
   div.holder
     - ('A'..'M').each do |c|
       - if @letters.include? c
         a.key href='/letter/#{c}' =c
       - else
         div.keygap  
+        
   div.holder
     - ('N'..'Z').each do |c|
       - if @letters.include? c
@@ -32,5 +37,6 @@ div#g-holder
       - else
         div.keygap
   
-form action='/reset' method='GET'
-  input type="submit" value="Reset"
+- if false
+  form.debug action='/reset' method='GET'
+    input type="submit" value="Reset"
