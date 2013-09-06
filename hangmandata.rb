@@ -1,5 +1,9 @@
+require "term/ansicolor"
+
 module HangmanData
 
+  include Term::ANSIColor
+  
   WORDS = [
     'system', 'crab', 'trivial', 'pursuit', 'apache', 'lives', 'cistern', 'english',
     'certificate', 'exits', 'xyphias', 'xylophone', 'zoology', 'rhythms', 'idiomatic',
@@ -50,18 +54,21 @@ module HangmanData
     'finality'
   ]
   
+  LAND = Term::ANSIColor.yellow { "------------" }
+  TOP  = Term::ANSIColor.yellow { " --------\n" }
+  
   GALLOWS = [
-    "\n\n\n\n\n\n------------",
-    "\n |\n |\n |\n |\n |\n------------",
-    " --------\n |\n |\n |\n |\n |\n------------",
-    " --------\n |/\n |\n |\n |\n |\n------------",
-    " --------\n |/     |\n |\n |\n |\n |\n------------",
-    " --------\n |/     |\n |      o\n |\n |\n |\n------------",
-    " --------\n |/     |\n |      o\n |      O\n |\n |\n------------",
-    " --------\n |/     |\n |      o\n |     /O\n |\n |\n------------",
-    " --------\n |/     |\n |      o\n |     /O\\\n |\n |\n------------",
-    " --------\n |/     |\n |      o\n |     /O\\\n |     /\n |\n------------",
-    " --------\n |/     |\n |      o\n |     /O\\\n |     / \\ \n |\n------------"
+    "\n\n\n\n\n\n" + LAND,
+    "\n |\n |\n |\n |\n |\n" + LAND,
+    TOP + " |\n |\n |\n |\n |\n" + LAND,
+    TOP + " |/\n |\n |\n |\n |\n" + LAND,
+    TOP + " |/     |\n |\n |\n |\n |\n" + LAND,
+    TOP + " |/     |\n |      o\n |\n |\n |\n" + LAND,
+    TOP + " |/     |\n |      o\n |      O\n |\n |\n" + LAND,
+    TOP + " |/     |\n |      o\n |     /O\n |\n |\n" + LAND,
+    TOP + " |/     |\n |      o\n |     /O\\\n |\n |\n" + LAND,
+    TOP + " |/     |\n |      o\n |     /O\\\n |     /\n |\n" + LAND,
+    TOP + " |/     |\n |      o\n |     /O\\\n |     / \\ \n |\n" + LAND
   ]
 
 end

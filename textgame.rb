@@ -2,6 +2,9 @@ require "./hangmangame"
 
 class TextGame < HangmanGame
 
+  CLR   = "\e[2J"   # Clear screen
+  HOME  = "\e[;H"   # Home Cursor
+  
   def initialize
     @show_title = true;
   end
@@ -16,7 +19,7 @@ class TextGame < HangmanGame
       yesno = 'q'
       
       while !('YN'.include? yesno)
-        print "\nPlay Again? "
+        print blue { bold { "Play Again? " } }
         yesno = gets[0].upcase
       end
       
@@ -33,9 +36,10 @@ class TextGame < HangmanGame
     complete = false
 
     while !complete
+      print CLR + HOME   
       show_gallows
       complete = show_word || hung?
-      if( !complete )
+      if !complete
         show_bad
         get_letter
       end
@@ -49,7 +53,7 @@ class TextGame < HangmanGame
   
   def show_gallows
     if bad_count > 0
-      puts "\n\n" + GALLOWS[bad_count-1]
+      puts "\n" + GALLOWS[bad_count-1]
     end
   end
 
@@ -57,7 +61,7 @@ class TextGame < HangmanGame
 # Show the word, and return whether it's solved
   
   def show_word
-    puts "\nWord: " + word_as_dashes + "\n\n"    
+    puts "\nWord: " + blue { bold { word_as_dashes } } + "\n\n"    
     solved?
   end
 
@@ -67,7 +71,7 @@ class TextGame < HangmanGame
   def show_bad
     if bad_count != 0
       print "Used: "
-      @bad.each { |c| print "#{c} " }
+      @bad.each { |c| print red { bold { "#{c} " } } }
       puts "\n\n"
     end
   end
@@ -87,9 +91,9 @@ class TextGame < HangmanGame
 
   def finished
     if hung?
-      puts "Aaargh! Fred was hanged.\nThe word was #@word.\n\n"
+      puts red { bold { "Aaargh! Fred was hanged.\nThe word was #@word.\n\n" } }
     else
-      puts "Well done.\n\n"
+      puts green { bold { "Well done.\n\n" } }
     end
     
     !hung?

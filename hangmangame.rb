@@ -40,8 +40,7 @@ class HangmanGame
   end
   
 
-# Process the passed letter and add it to either 
-# good or bad  
+# Process the passed letter and add it to either good or bad
 
   def process_letter cur
     if( in_word? cur )
