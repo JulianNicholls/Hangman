@@ -7,9 +7,14 @@ class TextGame < HangmanGame
   
   def initialize
     @show_title = true;
+
+    print "Loading... "
+    super
   end
   
   def play_repeatedly
+    show_title if @show_title
+    
     again = true
 
     while again
@@ -19,7 +24,7 @@ class TextGame < HangmanGame
       yesno = 'q'
       
       while !('YN'.include? yesno)
-        print blue { bold { "Play Again? " } }
+        print cyan { bold { "Play Again? " } }
         yesno = gets[0].upcase
       end
       
@@ -31,8 +36,6 @@ class TextGame < HangmanGame
 # Play one game
   
   def play
-    show_title if @show_title
-    
     complete = false
 
     while !complete
@@ -61,7 +64,7 @@ class TextGame < HangmanGame
 # Show the word, and return whether it's solved
   
   def show_word
-    puts "\nWord: " + blue { bold { word_as_dashes } } + "\n\n"    
+    puts "\nWord: " + cyan { bold { word_as_dashes } } + "\n\n"    
     solved?
   end
 
@@ -80,7 +83,7 @@ class TextGame < HangmanGame
 # Get a letter from the player
   
   def get_letter
-    print "Letter? "
+    print yellow { bold { "Letter? " } }
     cur = gets[0].upcase
 
     process_letter cur
@@ -103,12 +106,14 @@ class TextGame < HangmanGame
 # Show the title screen, and suppress it for following runs
 
   def show_title
-    puts "-----------------------------------------"
-    puts "HANGMAN by Julian Nicholls, August 2013"
+    puts "\n"
+    puts "----------------------------------------"
+    puts "HANGMAN by Julian Nicholls, Aug-Sep 2013"
     puts "      -----------------------"
-    puts "Selecting from #{WORDS.length} words."
-    puts "-----------------------------------------\n\n"
+    puts "Selecting from #{@wordlist.length} words."
+    puts "----------------------------------------\n\n"
     
+    sleep 3
     @show_title = false
   end
 

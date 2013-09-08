@@ -5,14 +5,21 @@ class HangmanGame
   attr_reader :word, :bad
   
   include HangmanData
+
+  def initialize
+    @wordlist = []
+
+    File.foreach( 'words.txt' ) { |line| @wordlist << line.chomp() }
+  end
   
-# Initialise, either with a word or a selection from the word list
+# Start a new game, either with a word or a selection from the word list
 
   def new_game( word = nil )
-    @word = (word || random_word).upcase
     @done = false
     @bad  = []
     @good = []
+
+    @word = (word || random_word).upcase
   end
   
   
@@ -61,7 +68,7 @@ class HangmanGame
 # Choose a random word from the list
   
   def random_word
-    WORDS[rand WORDS.length]
+    @wordlist[rand @wordlist.length]
   end
 
   
@@ -97,9 +104,5 @@ class HangmanGame
   def is_bad? letter
     @bad.include? letter
   end
-
-  
-# Debug display of state
-
 end
 
