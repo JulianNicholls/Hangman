@@ -29,3 +29,7 @@ The wordlist that I have chosen to construct from his files is:
 - English and British up to variant 1.
 - No abbreviations, proper names, Roman numerals, and hacker words. 
 - Word lengths 4 to 9.
+
+This is a much smaller list than the one I used for my 
+[Countdown](https://github.com/JulianNicholls/Countdown)
+letters round solver.
