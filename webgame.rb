@@ -1,3 +1,6 @@
+#!/usr/bin/ruby
+$:.push("/home4/juliann1/ruby/gems")
+
 require 'sinatra'
 require 'sinatra/reloader' if development?
 require 'sass'
@@ -23,7 +26,7 @@ get '/' do
   
   if session[:playing].nil?
     session[:playing] = false
-    session[:game]    = HangmanGame.new
+    session[:game]    = HangmanGame.new( false )  # Don't load the whole word list
   end
 
   if session[:playing]
@@ -42,7 +45,7 @@ end
 get '/start' do
   session[:playing] = true
 
-  session[:game] = HangmanGame.new if session[:game].nil?
+  session[:game] = HangmanGame.new( false ) if session[:game].nil?  # Don't load the whole word list
 
   session[:game].new_game
   redirect to( '/' )
@@ -57,8 +60,7 @@ end
 # Shouldn't be necessary any more...
 
 get '/reset' do
-  session[:playing] = false
-  session[:game]  = HangmanGame.new
+  session[:playing] = nil
   redirect to( '/' )
 end
 

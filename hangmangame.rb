@@ -6,13 +6,19 @@ class HangmanGame
   
   include HangmanData
 
-  def initialize
+  # Load word list, and keep, if asked. The web version has to load the word
+  # list on demand
+  
+  def initialize( keep_list = true )
     @wordlist = []
 
-    File.foreach( 'words.txt' ) { |line| @wordlist << line.chomp() }
+    File.foreach( 'words.txt' ) { |line| @wordlist << line.chomp }
+    
+    @word_count = @wordlist.length
+    @wordlist   = [] unless keep_list
   end
   
-# Start a new game, either with a word or a selection from the word list
+  # Start a new game, either with a word or a selection from the word list
 
   def new_game( word = nil )
     @done = false
@@ -23,12 +29,12 @@ class HangmanGame
   end
   
   
-# Return the word with dashes for unguessed letters
+  # Return the word with dashes for unguessed letters
 
   def word_as_dashes
     word = ''
     
-    @word.split( // ).each do |c|
+    @word.each_char do |c|
       word << ((is_good? c) ? "#{c} " : "_ ")
     end
     
@@ -36,10 +42,10 @@ class HangmanGame
   end
 
 
-# Return whether the word has been completely solved
+  # Return whether the word has been completely solved
 
   def solved?
-    @word.split( // ).each do |c|
+    @word.each_char do |c|
       return false unless is_good? c
     end
     
@@ -47,7 +53,7 @@ class HangmanGame
   end
   
 
-# Process the passed letter and add it to either good or bad
+  # Process the passed letter and add it to either good or bad
 
   def process_letter cur
     if( in_word? cur )
@@ -58,48 +64,65 @@ class HangmanGame
   end
   
 
-# Return whether it's all over
+  # Return whether it's all over
   
   def hung?
     bad_count == GALLOWS.length
   end
 
 
-# Choose a random word from the list
+  # Choose a random word from the list or from the file, if the list wasn't
+  # retained in initialize.
   
   def random_word
-    @wordlist[rand @wordlist.length]
+    # If the word list has been initialized (text mode), return a word
+    
+    return @wordlist[rand @word_count] if @wordlist.length != 0
+    
+    # Otherwise, we need to choose a word by reading a random number of lines
+    # into the word file
+    
+    word = ''
+    
+    File.open( "words.txt" ) do |file|
+      rand( @word_count ).times do
+        word = file.gets.chomp
+      end
+    end
+    
+    word
   end
 
   
-# Return the number of used letters
+  # Return the number of used letters
 
   def bad_count
     @bad.length
   end
 
 
-# Return whether the passed letter is in the word
+  # Return whether the passed letter is in the word
   
   def in_word? letter
     @word.include? letter
   end
 
-# Return the used letters
+  
+  # Return all the used letters
 
   def used
     @good + @bad
   end
   
   
-# Return whether the letter is in the word and has been entered by the player
+  # Return whether the letter is in the word and has been entered by the player
 
   def is_good? letter
     @good.include? letter
   end
   
   
-# Return whether a letter has been used, and wrong
+  # Return whether a letter has been used, and wrong
 
   def is_bad? letter
     @bad.include? letter
