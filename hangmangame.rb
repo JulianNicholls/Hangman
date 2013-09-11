@@ -77,7 +77,7 @@ class HangmanGame
   def random_word
     # If the word list has been initialized (text mode), return a word
     
-    return @wordlist[rand @word_count] if @wordlist.length != 0
+    return @wordlist[rand @word_count] unless @wordlist.length == 0
     
     # Otherwise, we need to choose a word by reading a random number of lines
     # into the word file

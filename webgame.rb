@@ -1,5 +1,4 @@
 #!/usr/bin/ruby
-$:.push("/home4/juliann1/ruby/gems")
 
 require 'sinatra'
 require 'sinatra/reloader' if development?
