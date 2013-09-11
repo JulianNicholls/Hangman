@@ -52,6 +52,7 @@ a.key {
     border-radius: 15px;
     background: $keybg;
     color: white;
+    box-shadow: 2px 2px 5px #444;
 }
 
 div.keygap {
@@ -69,30 +70,33 @@ div.holder { overflow: hidden; padding-left: 70px; }
 div.word-holder {
    overflow: hidden;
    background: White url('/word-BG.png') no-repeat;
-   height: 40px;
-   padding: 10px 0 0 70px;
+   height: 50px;
+   line-height: 50px;
+   padding: 0 0 0 100px;
+   font-size: 20pt;
 }
 
 div.bad-holder {
    overflow: hidden;
    background: #7f0000 url('/used-BG.png') no-repeat;
-   height: 40px;
-   padding: 10px 0 0 70px;
+   height: 50px;
+   padding: 0 0 0 90px;
 }
 
 div.tile {
     display: block;
     float: left;
-    line-height: 20px;
-    height: 20px;
-    width: 20px;
-    margin: 5px;
+    font-size: 20pt;
+    height: 30px;
+    line-height: 30px;
+    width: 30px;
+    margin: 10px 5px 0 0;
     text-align: center;
     text-decoration: none;
-    border: 1px solid black;
+    border: 2px solid black;
     background: white;
-    color: black;
-    box-shadow: 1px 1px #555;
+    color: red;
+    box-shadow: 2px 2px 4px #444;
 }
 
 p.bottom {
