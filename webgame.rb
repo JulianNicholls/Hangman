@@ -44,7 +44,7 @@ end
 get '/start' do
   session[:playing] = true
 
-  session[:game] = HangmanGame.new( false ) if session[:game].nil?  # Don't load the whole word list
+  session[:game] ||= HangmanGame.new( false )  # Don't load the whole word list
 
   session[:game].new_game
   redirect to( '/' )

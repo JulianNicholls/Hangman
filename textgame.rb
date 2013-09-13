@@ -110,7 +110,7 @@ class TextGame < HangmanGame
     puts "----------------------------------------"
     puts "HANGMAN by Julian Nicholls, Aug-Sep 2013"
     puts "      -----------------------"
-    puts "Selecting from #{@wordlist.length} words."
+    puts "    Selecting from #{@wordlist.length} words."
     puts "----------------------------------------\n\n"
     
     sleep 3
