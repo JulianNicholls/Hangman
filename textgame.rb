@@ -4,7 +4,10 @@ class TextGame < HangmanGame
 
   CLR   = "\e[2J"   # Clear screen
   HOME  = "\e[;H"   # Home Cursor
-  
+ 
+# Initialise by enabling the initial title panel, loading
+# and caching the word list
+ 
   def initialize
     @show_title = true;
 
@@ -12,6 +15,8 @@ class TextGame < HangmanGame
     super
   end
   
+# Play until the user wants out.
+
   def play_repeatedly
     show_title if @show_title
     
