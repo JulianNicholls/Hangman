@@ -28,7 +28,7 @@ class TextGame < HangmanGame
       
       yesno = 'q'
       
-      while !('YN'.include? yesno)
+      until 'YN'.include? yesno
         print cyan { bold { "Play Again? " } }
         yesno = gets[0].upcase
       end
@@ -43,7 +43,7 @@ class TextGame < HangmanGame
   def play
     complete = false
 
-    while !complete
+    until complete
       print CLR + HOME   
       show_gallows
       complete = show_word || hung?

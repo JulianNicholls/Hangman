@@ -9,13 +9,13 @@ class HangmanGame
   # Load word list, and keep, if asked. The web version has to load the word
   # list on demand
   
-  def initialize( keep_list = true )
+  def initialize( keep_list = :keep )
     @wordlist = []
 
     File.foreach( 'words.txt' ) { |line| @wordlist << line.chomp }
     
     @word_count = @wordlist.length
-    @wordlist   = [] unless keep_list
+    @wordlist   = [] unless keep_list == :keep
   end
   
   # Start a new game, either with a word or a selection from the word list

@@ -25,7 +25,7 @@ get '/' do
   
   if session[:playing].nil?
     session[:playing] = false
-    session[:game]    = HangmanGame.new( false )  # Don't load the whole word list
+    session[:game]    = HangmanGame.new :release  # Don't load the whole word list
   end
 
   if session[:playing]
@@ -44,9 +44,9 @@ end
 get '/start' do
   session[:playing] = true
 
-  session[:game] ||= HangmanGame.new( false )  # Don't load the whole word list
-
+  session[:game] ||= HangmanGame.new :release  # Don't load the whole word list
   session[:game].new_game
+  
   redirect to( '/' )
 end
   
@@ -56,11 +56,10 @@ get '/letter/:let' do
   redirect to( '/' )
 end
 
+
 # Shouldn't be necessary any more...
 
 get '/reset' do
   session[:playing] = nil
   redirect to( '/' )
 end
-
-
