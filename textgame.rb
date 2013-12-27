@@ -1,94 +1,88 @@
-require "./hangmangame"
+require './hangmangame'
+
+# Run the Hangman text game
 
 class TextGame < HangmanGame
-
   CLR   = "\e[2J"   # Clear screen
   HOME  = "\e[;H"   # Home Cursor
- 
-# Initialise by enabling the initial title panel, loading
-# and caching the word list
- 
-  def initialize
-    @show_title = true;
 
-    print "Loading... "
+  # Initialise by enabling the initial title panel, loading
+  # and caching the word list
+
+  def initialize
+    @show_title = true
+
+    print 'Loading... '
     super
   end
-  
-# Play until the user wants out.
+
+  # Play until the user wants out.
 
   def play_repeatedly
     show_title if @show_title
-    
-    again = true
 
-    while again
+    loop do
       new_game
       play
-      
-      yesno = 'q'
-      
-      until 'YN'.include? yesno
-        print cyan { bold { "Play Again? " } }
-        yesno = gets[0].upcase
-      end
-      
-      again = (yesno == 'Y')
+
+      break if yesno == 'N'
     end
   end
 
-  
-# Play one game
-  
-  def play
-    complete = false
+  def yesno
+    resp = ''
 
-    until complete
-      print CLR + HOME   
-      show_gallows
-      complete = show_word || hung?
-      if !complete
-        show_bad
-        get_letter
-      end
+    loop do
+      print cyan { bold { 'Play Again? ' } }
+      resp = gets[0].upcase
+      break if 'YN'.include? resp
     end
-    
+
+    resp
+  end
+
+  # Play one game
+
+  def play
+    loop do
+      print CLR + HOME
+      show_gallows
+      break if show_word || hung?
+
+      show_bad
+      enter_letter
+    end
+
     finished
   end
 
-  
-# Show the gallows for the current number of used letters
-  
+  # Show the gallows for the current number of used letters
+
   def show_gallows
-    if bad_count > 0
-      puts "\n" + GALLOWS[bad_count-1]
-    end
+    puts "\n" + GALLOWS[bad_count - 1] if bad_count > 0
   end
 
+  # Show the word, and return whether it's solved
 
-# Show the word, and return whether it's solved
-  
   def show_word
-    puts "\nWord: " + cyan { bold { word_as_dashes } } + "\n\n"    
+    puts "\nWord: " + cyan { bold { word_as_dashes } } + "\n\n"
     solved?
   end
 
-  
-# Show the used letters
+  # Show the used letters
 
   def show_bad
     if bad_count != 0
-      print "Used: "
+      print 'Used: '
       @bad.each { |c| print red { bold { "#{c} " } } }
       puts "\n\n"
     end
   end
 
+  # Get a letter from the player
 
-# Get a letter from the player
-  
-  def get_letter
-    print yellow { bold { "Letter? " } }
+  def enter_letter
+    print yellow { bold { 'Letter? ' } }
     cur = read_char.upcase
 
     process_letter cur
@@ -101,40 +95,37 @@ class TextGame < HangmanGame
       system "stty -raw echo"
   end
   
-# Tell the user well done, or...
+  # Tell the user well done, or...
 
   def finished
     if hung?
-      puts red { bold { "Aaargh! Fred was hanged.\nThe word was #@word.\n\n" } }
+      puts red { bold { "Aaargh! Fred was hanged.\nThe word was #{@word}.\n\n" } }
     else
       puts green { bold { "Well done.\n\n" } }
     end
-    
+
     !hung?
   end
 
-
-# Show the title screen, and suppress it for following runs
+  # Show the title screen, and suppress it for following runs
 
   def show_title
     puts "\n"
-    puts "----------------------------------------"
-    puts "HANGMAN by Julian Nicholls, Aug-Oct 2013"
-    puts "      -----------------------"
+    puts '----------------------------------------'
+    puts 'HANGMAN by Julian Nicholls, Aug-Dec 2013'
+    puts '      -----------------------'
     puts "    Selecting from #{@wordlist.length} words."
     puts "----------------------------------------\n\n"
-    
+
     sleep 3
     @show_title = false
   end
 
-
   def debug
-    puts "Word: #@word"
-    puts "Good: #@good"
-    puts "Bad:  #@bad"
+    puts "Word: #{@word}"
+    puts "Good: #{@good}"
+    puts "Bad:  #{@bad}"
   end
-
 end
 
 game = TextGame.new
