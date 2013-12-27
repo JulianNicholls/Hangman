@@ -89,11 +89,17 @@ class TextGame < HangmanGame
   
   def get_letter
     print yellow { bold { "Letter? " } }
-    cur = gets[0].upcase
+    cur = read_char.upcase
 
     process_letter cur
   end
 
+  def read_char
+    system "stty raw -echo"
+    STDIN.getc
+  ensure
+      system "stty -raw echo"
+  end
   
 # Tell the user well done, or...
 
@@ -113,7 +119,7 @@ class TextGame < HangmanGame
   def show_title
     puts "\n"
     puts "----------------------------------------"
-    puts "HANGMAN by Julian Nicholls, Aug-Sep 2013"
+    puts "HANGMAN by Julian Nicholls, Aug-Oct 2013"
     puts "      -----------------------"
     puts "    Selecting from #{@wordlist.length} words."
     puts "----------------------------------------\n\n"
