@@ -26,7 +26,7 @@ class TextGame < HangmanGame
       new_game
       play
 
-      break if yesno == 'N'
+      break unless yesno
     end
   end
 
@@ -34,12 +34,12 @@ class TextGame < HangmanGame
     resp = ''
 
     loop do
-      print cyan { bold { 'Play Again? ' } }
+      print cyan, bold, 'Play Again? '
       resp = gets[0].upcase
       break if 'YN'.include? resp
     end
 
-    resp
+    resp == 'Y'
   end
 
   # Play one game
@@ -66,7 +66,7 @@ class TextGame < HangmanGame
   # Show the word, and return whether it's solved
 
   def show_word
-    puts "\nWord: " + cyan { bold { word_as_dashes } } + "\n\n"
+    puts "\nWord: " + cyan + bold + word_as_dashes + "\n\n"
     solved?
   end
 
@@ -75,15 +75,15 @@ class TextGame < HangmanGame
   def show_bad
     return if bad_count == 0
 
-    print 'Used: '
-    @bad.each { |c| print red { bold { "#{c} " } } }
+    print 'Used: ', red, bold
+    @bad.each { |char| print "#{char} " }
     puts "\n\n"
   end
 
   # Get a letter from the player
 
   def enter_letter
-    print yellow { bold { 'Letter? ' } }
+    print yellow, bold, 'Letter? '
     cur = read_char.upcase
 
     process_letter cur
@@ -111,13 +111,14 @@ class TextGame < HangmanGame
   # Show the title screen, and suppress it for following runs
 
   def show_title
-    puts "\n"
-    puts '----------------------------------------'
-    puts 'HANGMAN by Julian Nicholls, Aug-Dec 2013'
-    puts '      -----------------------'
-    puts "    Selecting from #{@wordlist.length} words."
-    puts "----------------------------------------\n\n"
+    puts <<END
 
+----------------------------------------
+HANGMAN by Julian Nicholls, Aug-Dec 2013
+      -----------------------
+    Selecting from #{@wordlist.length} words.
+----------------------------------------\n\n
+END
     sleep 3
     @show_title = false
   end

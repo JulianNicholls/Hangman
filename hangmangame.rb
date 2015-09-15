@@ -33,8 +33,8 @@ class HangmanGame
   def word_as_dashes
     word = ''
 
-    @word.each_char do |c|
-      word << (good?(c) ? "#{c} " : '_ ')
+    @word.each_char do |char|
+      word << (good?(char) ? "#{char} " : '_ ')
     end
 
     word
@@ -43,7 +43,7 @@ class HangmanGame
   # Return whether the word has been completely solved
 
   def solved?
-    @word.each_char.all? { |c| good? c }
+    @word.each_char.all? { |char| good? char }
   end
 
   # Process the passed letter and add it to either good or bad
@@ -66,9 +66,11 @@ class HangmanGame
   # retained in initialize.
 
   def random_word
+    index = rand @word_count
+
     # If the word list has been initialized (text mode), return a word
 
-    return @wordlist[rand @word_count] unless @wordlist.length == 0
+    return @wordlist[index] unless @wordlist.length == 0
 
     # Otherwise, we need to choose a word by reading a random number of lines
     # into the word file
@@ -76,9 +78,7 @@ class HangmanGame
     word = ''
 
     File.open('words.txt') do |file|
-      rand(@word_count).times do
-        word = file.gets.chomp
-      end
+      index.times { word = file.gets.chomp }
     end
 
     word
