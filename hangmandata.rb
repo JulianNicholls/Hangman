@@ -1,7 +1,6 @@
 require 'term/ansicolor'
 
 # Data for the text Hangman game.
-
 module HangmanData
   include Term::ANSIColor
 

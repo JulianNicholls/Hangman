@@ -1,13 +1,14 @@
-require './hangmangame'
+#!/usr/bin/env ruby -I.
+
+require 'hangmangame'
 
 # Run the Hangman text game
-
 class TextGame < HangmanGame
   CLR   = "\e[2J"   # Clear screen
   HOME  = "\e[;H"   # Home Cursor
 
-  # Initialise by enabling the initial title panel, loading
-  # and caching the word list
+  # Initialise by enabling the initial title panel, loading and caching
+  # the word list
 
   def initialize
     @show_title = true
@@ -72,11 +73,11 @@ class TextGame < HangmanGame
   # Show the used letters
 
   def show_bad
-    if bad_count != 0
-      print 'Used: '
-      @bad.each { |c| print red { bold { "#{c} " } } }
-      puts "\n\n"
-    end
+    return if bad_count == 0
+
+    print 'Used: '
+    @bad.each { |c| print red { bold { "#{c} " } } }
+    puts "\n\n"
   end
 
   # Get a letter from the player
@@ -89,19 +90,19 @@ class TextGame < HangmanGame
   end
 
   def read_char
-    system "stty raw -echo"
+    system 'stty raw -echo'
     STDIN.getc
   ensure
-      system "stty -raw echo"
+    system 'stty -raw echo'
   end
-  
+
   # Tell the user well done, or...
 
   def finished
     if hung?
-      puts red { bold { "Aaargh! Fred was hanged.\nThe word was #{@word}.\n\n" } }
+      puts red, bold, "Aaargh! Fred was hanged.\nThe word was #{@word}.\n\n"
     else
-      puts green { bold { "Well done.\n\n" } }
+      puts green, bold, "Well done.\n\n"
     end
 
     !hung?

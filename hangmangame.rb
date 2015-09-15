@@ -1,7 +1,6 @@
-require './hangmandata'
+require 'hangmandata'
 
 # The Hangman game engine
-
 class HangmanGame
   attr_reader :word, :bad
 
@@ -10,10 +9,10 @@ class HangmanGame
   # Load word list, and keep, if asked. The web version has to load the word
   # list on demand
 
-  def initialize( keep_list = :keep )
+  def initialize(keep_list = :keep)
     @wordlist = []
 
-    File.foreach( 'words.txt' ) { |line| @wordlist << line.chomp }
+    File.foreach('words.txt') { |line| @wordlist << line.chomp }
 
     @word_count = @wordlist.length
     @wordlist   = [] unless keep_list == :keep
@@ -21,7 +20,7 @@ class HangmanGame
 
   # Start a new game, either with a word or a selection from the word list
 
-  def new_game( word = nil )
+  def new_game(word = nil)
     @done = false
     @bad  = []
     @good = []
@@ -35,7 +34,7 @@ class HangmanGame
     word = ''
 
     @word.each_char do |c|
-      word << (good?( c ) ? "#{c} " : '_ ')
+      word << (good?(c) ? "#{c} " : '_ ')
     end
 
     word
@@ -44,18 +43,14 @@ class HangmanGame
   # Return whether the word has been completely solved
 
   def solved?
-    @word.each_char do |c|
-      return false unless good? c
-    end
-
-    true
+    @word.each_char.all? { |c| good? c }
   end
 
   # Process the passed letter and add it to either good or bad
 
-  def process_letter( cur )
+  def process_letter(cur)
     if in_word? cur
-      @good << cur unless good? cur  # Don't duplicate
+      @good << cur unless good? cur
     else
       @bad << cur unless bad? cur
     end
@@ -80,8 +75,8 @@ class HangmanGame
 
     word = ''
 
-    File.open( 'words.txt' ) do |file|
-      rand( @word_count ).times do
+    File.open('words.txt') do |file|
+      rand(@word_count).times do
         word = file.gets.chomp
       end
     end
@@ -97,7 +92,7 @@ class HangmanGame
 
   # Return whether the passed letter is in the word
 
-  def in_word?( letter )
+  def in_word?(letter)
     @word.include? letter
   end
 
@@ -109,13 +104,13 @@ class HangmanGame
 
   # Return whether the letter is in the word and has been entered by the player
 
-  def good?( letter )
+  def good?(letter)
     @good.include? letter
   end
 
   # Return whether a letter has been used, and wrong
 
-  def bad?( letter )
+  def bad?(letter)
     @bad.include? letter
   end
 end

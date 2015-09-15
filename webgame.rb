@@ -1,28 +1,29 @@
-#!/usr/bin/ruby
+#!/usr/bin/ruby -I.
 
 require 'sinatra'
 require 'sinatra/reloader' if development?
 require 'sass'
 require 'slim'
 
-require './hangmangame'
+require 'hangmangame'
 
 configure do
-#  enable :sessions
-
   use Rack::Session::Cookie,
       expire_after: 300,          # Five minute game should cover it.
       secret:       'JGNHangman'  # Finally, an actual secret
 end
 
-get( '/styles/webgame.css' ) { scss :styles }
+get('/styles/webgame.css') { scss :styles }
 
 get '/' do
   @phase = -1
 
   if session[:playing].nil?
     session[:playing] = false
-    session[:game]    = HangmanGame.new :release  # Don't load the whole word list
+
+    # Don't load the whole word list
+
+    session[:game]    = HangmanGame.new :release
   end
 
   if session[:playing]
@@ -40,20 +41,22 @@ end
 get '/start' do
   session[:playing] = true
 
-  session[:game] ||= HangmanGame.new :release  # Don't load the whole word list
+  # Don't load the whole word list
+
+  session[:game] ||= HangmanGame.new :release
   session[:game].new_game
 
-  redirect to( '/' )
+  redirect to('/')
 end
 
 get '/letter/:let' do
   session[:game].process_letter params[:let]
-  redirect to( '/' )
+  redirect to('/')
 end
 
 # Shouldn't be necessary any more...
 
 get '/reset' do
   session[:playing] = nil
-  redirect to( '/' )
+  redirect to('/')
 end
