@@ -6,19 +6,19 @@ hangmandata.rb.
 
 ## Versions
 
-textgame.rb is a command-line version which uses the gem 
+textgame.rb is a command-line version which uses the gem
 [term-ansicolor](http://flori.github.io/term-ansicolor/) to add a
-little colour to the display. 
+little colour to the display.
 
-webgame.rb is a [Sinatra](http://www.sinatrarb.com/) version, 
+webgame.rb is a [Sinatra](http://www.sinatrarb.com/) version,
 using [SASS](http://sass-lang.com/) and [Slim](http://slim-lang.com/).
 
 ## Word list
 
 This has now been updated to use a word list constructed from
-Kevin Atkinson's [wordlist page](http://wordlist.sourceforge.net/). 
+Kevin Atkinson's [wordlist page](http://wordlist.sourceforge.net/).
 I have included the whole copyright file that comes with the download, since
-all the component word lists have ultimately been placed in the public domain, 
+all the component word lists have ultimately been placed in the public domain,
 but there are a number of different statements of copyright contained. Clearly,
 I am deeply in Kevin's debt for the word list and acknowledge the sterling work
 that he has done.
@@ -27,9 +27,11 @@ The wordlist that I have chosen to construct from his files is:
 
 - Level 60, with...
 - English and British up to variant 1.
-- No abbreviations, proper names, Roman numerals, and hacker words. 
+- No abbreviations, proper names, Roman numerals, and hacker words.
 - Word lengths 4 to 9.
 
-This is a much smaller list than the one I used for my 
-[Countdown](https://github.com/JulianNicholls/Countdown)
-letters round solver.
+# November 2019
+
+The word list is now the same one used by the new
+[Countdown solver](http://countdown.reallybigshoe.co.uk).
+Code [here](https://github.com/JulianNicholls/Countdown-Node).
